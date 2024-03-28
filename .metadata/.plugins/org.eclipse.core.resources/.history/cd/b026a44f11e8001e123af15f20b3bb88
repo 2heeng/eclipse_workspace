@@ -1,0 +1,121 @@
+package com.spring.ex01;
+
+import java.util.Map;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.ModelAndView;
+
+//주석이 달린 클래스가 "컨트롤러"임을 나타냅니다
+//이 주석은 @Component의 특수화 역할을 하여 클래스 경로 검색을 통해 구현 클래그가 자동 감지되도록 합니다.
+//일반적으로 RequestMapping 주석을 기반으로 주석 처리기 메서드와 함께 사용됩니다.
+
+@Controller(value = "mainController")
+@RequestMapping(value = "/test/*") 
+public class MainController {
+
+	@RequestMapping(value = "/hi.do") //기본값은 get이므로 생략 가능
+	public ModelAndView main1(HttpServletRequest request, HttpServletResponse response) throws Exception {
+		ModelAndView mav =new ModelAndView();
+		mav.addObject("age",27);
+		mav.addObject("color","파랑");
+		mav.setViewName("main");
+		
+		Student stu = new Student();
+		stu.setBan(1);
+		stu.setName("hong");
+		mav.addObject("student", stu);
+		
+		
+		return mav;
+	}
+
+	@RequestMapping(value = "/hi2.do")
+	public ModelAndView main2(HttpServletRequest request, HttpServletResponse response) throws Exception {
+		ModelAndView mav =new ModelAndView();
+		mav.setViewName("main2");
+		
+		return mav;
+	}
+	
+	@RequestMapping(value = "/hi3.do")
+	public ModelAndView main3(HttpServletRequest request, HttpServletResponse response) throws Exception {
+		ModelAndView mav =new ModelAndView();
+		mav.setViewName("main3");
+		
+		return mav;
+	}
+	
+	@RequestMapping(value = "/loginform.do")
+	public ModelAndView main4(HttpServletRequest request, HttpServletResponse response) throws Exception {
+		ModelAndView mav =new ModelAndView();
+		mav.setViewName("loginform");
+		
+		return mav;
+	}
+	
+	//@RequestMapping(value = "/login.do", method = {RequestMethod.POST,RequestMethod.GET})
+//	public ModelAndView main5(@RequestParam("ID") String id,@RequestParam("password") String pwd이렇게도 쓸 수 있고
+	//required는 꼭 있어야 한다는 뜻. false로 해놓으면 파라미터가 없을 경우 null반환
+//		public ModelAndView main5(@RequestParam(required = true) String id,@RequestParam(required = false) String pwd,
+//			HttpServletRequest request, HttpServletResponse response) throws Exception {
+//		ModelAndView mav =new ModelAndView();
+//		mav.setViewName("loginresult");
+//		
+//		//String ID = request.getParameter("ID");
+//		//String pwd = request.getParameter("password");
+//		
+//		mav.addObject("ID", id);
+//		mav.addObject("pwd", pwd);
+//		return mav;
+//	}
+	
+//	@RequestMapping(value = "/login.do", method = {RequestMethod.POST})
+//	public ModelAndView main6(@RequestParam Map<String,String> info, HttpServletRequest request, HttpServletResponse response) throws Exception {
+//		
+//		ModelAndView mav =new ModelAndView();
+//		
+//		System.out.println(info);
+//		
+//		mav.addObject("ID", info.get("ID"));
+//		mav.addObject("pwd", info.get("password"));
+//		
+//		mav.addObject("info",info);
+//		mav.setViewName("loginresult");
+//		
+//		return mav;
+//	}
+	
+//	@RequestMapping(value = "/stu.do")
+//	public ModelAndView main7(Student stu, HttpServletRequest request, HttpServletResponse response) throws Exception {
+//		
+//		ModelAndView mav =new ModelAndView();
+//		
+//		stu.setBan(5);
+//		stu.setName("길동");
+//		
+//		mav.addObject("stu",stu);
+//		
+//		mav.setViewName("loginresult");
+//		return mav;
+//	}
+	
+	
+	@RequestMapping(value = "/login.do",method = RequestMethod.POST)
+	public ModelAndView main7(@ModelAttribute("info") LoginVO loginVO, HttpServletRequest request, HttpServletResponse response) throws Exception {
+		
+		ModelAndView mav =new ModelAndView();
+		
+		System.out.println(loginVO.getID());
+		System.out.println(loginVO.getPassword());
+		
+		mav.setViewName("loginresult");
+		return mav;
+	}
+}

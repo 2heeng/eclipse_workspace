@@ -1,0 +1,9 @@
+package sec02;
+
+public class Computer {
+
+	
+	static double sMethod(double x, double y) {
+		
+	}
+}

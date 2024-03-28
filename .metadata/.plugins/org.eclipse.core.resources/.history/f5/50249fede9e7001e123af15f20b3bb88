@@ -1,0 +1,15 @@
+package sec01;
+
+public class LamdaEx1 {
+
+	
+	static void action() {
+		System.out.println("hi");
+	}
+	public static void main(String[] args) {
+	
+		action();
+
+	}
+
+}

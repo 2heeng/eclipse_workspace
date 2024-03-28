@@ -1,0 +1,20 @@
+package sec03;
+
+import java.util.Arrays;
+
+public class LoopingEx2 {
+
+	public static void main(String[] args) {
+		
+		
+		int intArr[] = {6,7,8,9,10};
+		
+		System.out.println(Arrays.stream(intArr).allMatch((x)->{return x%2==0;}));
+		
+		System.out.println(Arrays.stream(intArr).anyMatch((x)->{return x%3==0;}));
+		
+		System.out.println(Arrays.stream(intArr).notMatch((x)->{return x%3==0;}));
+
+	}
+
+}

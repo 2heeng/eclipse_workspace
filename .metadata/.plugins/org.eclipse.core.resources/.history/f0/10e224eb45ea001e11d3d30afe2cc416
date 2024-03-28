@@ -1,0 +1,25 @@
+package sec01;
+
+import java.util.ArrayList;
+import java.util.stream.Stream;
+
+public class StreamEx {
+
+	public static void main(String[] args) {
+		
+		//기존방식
+		ArrayList<Integer> arrList1 = new ArrayList<>();
+		arrList1.add(10);
+		arrList1.add(4);
+		
+		for(int i : arrList1) {
+			System.out.println(i);
+		}
+
+		
+		ArrayList<Integer> arrListSTream1 = (ArrayList<Integer>) arrList1.stream();
+		Stream<Integer> arrListSTream2=arrList1.stream();
+		
+	}
+
+}

@@ -1,0 +1,12 @@
+package sec03;
+
+public class Person {
+
+	void ordering(Comparable comparable) {
+
+		String result =comparable.compare("h", "i");
+		
+		System.out.println(result);
+	}
+
+}

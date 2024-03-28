@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:p="http://www.springframework.org/schema/p"
+	xmlns:aop="http://www.springframework.org/schema/aop"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans   
+http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+http://www.springframework.org/schema/aop
+http://www.springframework.org/schema/aop/spring-aop-3.0.xsd
+http://www.springframework.org/schema/context
+http://www.springframework.org/schema/context/spring-context-3.0.xsd">
+
+<bean  id="propertyConfigurer"
+      class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer" >
+      <property name="locations" >
+         <list>
+            <value>/WEB-INF/config/jdbc.properties</value>
+         </list>
+      </property>
+   </bean>
+
+<bean id="dataSource"
+		class="org.springframework.jdbc.datasource.SimpleDriverDataSource">
+		<property name="driverClass"
+			value="${jdbc.driverClassName}" />
+		<property name="url" value="${jdbc.url}" />
+		<property name="username" value="${jdbc.username}" />
+		<property name="password" value="${jdbc.password}" />
+	</bean>
+
+
+<!-- SqlSessionFactory 객체 주입 -->
+<bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
+<property name="dataSource" ref="dataSource"></property>
+<property name="configLocation" value="classpath:mybatis/SqlMapConfig.xml"></property>
+<property name="mapperLocations" value="classpath:mybatis/mappers/*.xml"></property>
+</bean>
+
+
+<!-- SqlSession객체에 SqlSessionFactory포함한 후 주입 -->
+<bean id="sqlSession" class="org.mybatis.spring.SqlSessionTemplate">
+<constructor-arg index="0" ref="sqlSessionFactory"></constructor-arg>
+</bean>
+
+
+<!-- DAO객체에 SqlSession포함한 후 주입 --> 
+<!-- 객체 주입 방식이 xml에서 객체를 주입하는 방식 대신에 @Autowired로 변경됨 -->
+<!-- <bean id="memberDAO" class="com.spring.member.dao.MemberDAOImpl">
+<property name="sqlSession" ref="sqlSession"></property>
+</bean> -->
+
+
+<!-- <bean id="memberDAO" class="com.spring.member.dao.MemberDAOImpl">
+<property name="dataSource" ref=""></property>
+</bean> -->
+
+
+
+
+
+
+</beans>

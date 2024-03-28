@@ -1,0 +1,26 @@
+package sec01;
+
+import java.util.ArrayList;
+import java.util.List;
+
+public class ScoreTest {
+
+	public static void main(String[] args) {
+		
+		List<Student> stuList = new ArrayList<Student>();
+		
+		stuList.add(new Student("홍일동",100));
+		stuList.add(new Student("홍이동",100));
+		stuList.add(new Student("홍삼동",100));
+		
+		//총합
+		int total = 0;
+		for(int i=0; i<stuList.size();i++) {
+			Student stu1=stuList.get(i);
+			total+=stu1.getScore();
+		}
+		System.out.println("총점은 " +total+"점");
+  
+	}
+
+}

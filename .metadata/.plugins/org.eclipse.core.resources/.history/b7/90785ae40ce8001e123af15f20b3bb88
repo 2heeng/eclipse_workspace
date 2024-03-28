@@ -1,0 +1,9 @@
+package ch16;
+
+public class Ex_07 {
+
+	private static int[] scores = {10, 50, 3};
+	
+	
+	
+}

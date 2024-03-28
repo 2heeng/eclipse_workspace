@@ -1,0 +1,7 @@
+package ch16;
+
+@FunctionalInterface
+public interface Function {
+
+	abstract void apply();
+}

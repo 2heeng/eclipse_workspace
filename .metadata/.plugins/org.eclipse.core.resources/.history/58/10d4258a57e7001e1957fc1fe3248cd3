@@ -1,0 +1,8 @@
+package com.spring.ex01;
+
+public class LoginVO {
+
+	private String userID;
+	private String userName;
+	
+}

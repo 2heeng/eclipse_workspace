@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<script src="https://code.jquery.com/jquery-3.6.4.js"></script>
+</head>
+<body>
+
+    <script>
+
+        // function fn_process(){
+        //     alert("hi");
+        // }
+
+        function fn_process(){
+        	
+        	var reply = $("input[type*=text]").val()
+        	
+            $.ajax({
+
+            	
+                //type : "get", 생략가능
+                //dataType : "text", 생략가능
+                url : "http://localhost:8080/project16/ajax1",
+                data : {menu : reply},
+                success : function(success_data,status){
+                    console.log("성공")
+                    console.log(success_data,status); //success_data는 짜장이 status는 success가 뜬다
+                    
+                    /* $("#here").append(success_data); */
+                     /* $("#here").text(success_data);  */
+                     $("#reply").append(success_data+"<br>");  
+                },
+                error : function(){
+                    console.log("error")
+                },
+                complete : function(){
+                    console.log("complete")
+                }
+            })
+        }
+
+
+    </script>
+    댓글만들기<br>
+    <hr>
+    
+<!-- <input type="button" value="서버에데이터전송하기" onclick="fn_process()"> -->
+
+<div id="reply"></div>
+<input type="text"> <input type="button" value="댓글달기" onclick="fn_process()">
+</body>
+</html>

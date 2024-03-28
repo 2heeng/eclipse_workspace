@@ -1,0 +1,25 @@
+package sec03;
+
+import java.util.Arrays;
+
+public class AggregateEx {
+
+	public static void main(String[] args) {
+		int intArr[] = {6,8,10,12};
+		
+		System.out.println(Arrays.stream(intArr).filter((x)->{return x%2==0;}).count());
+		
+		System.out.println(Arrays.stream(intArr).filter((x)->{return x%2==0;}).sum());
+		
+		System.out.println(Arrays.stream(intArr).filter((x)->{return x%2==0;}).average());
+		System.out.println(Arrays.stream(intArr).filter((x)->{return x%2==0;}).average().getAsDouble());
+		
+		System.out.println(Arrays.stream(intArr).filter((x)->{return x%2==0;}).max());
+		System.out.println(Arrays.stream(intArr).filter((x)->{return x%2==0;}).max().getAsInt());
+		
+		System.out.println(Arrays.stream(intArr).filter((x)->{return x%2==0;}).min());
+		System.out.println(Arrays.stream(intArr).filter((x)->{return x%2==0;}).min().getAsInt());
+
+	}
+
+}

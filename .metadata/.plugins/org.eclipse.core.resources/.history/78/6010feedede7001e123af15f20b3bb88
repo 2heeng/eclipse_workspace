@@ -1,0 +1,15 @@
+package sec01;
+
+public class Person {
+
+	
+	void action(Workable workable) {
+		workable.work1();
+	
+	}
+	
+	void action2(Workable workable) {
+		
+		workable.work2("과자");
+	}
+}

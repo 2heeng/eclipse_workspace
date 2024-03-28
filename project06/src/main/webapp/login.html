@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<script>
+function fn_validate(){
+	let name = document.form1.id.value;
+	let password = document.form1.password.value;
+	console.log(name);
+	if (name.length==0 || name==='' || password.length==0 || password===""){
+		alert("아이디,패스워드 반드시 둘 다 입력해라")
+	} else {
+		
+		form1.method="post";
+		form1.action="loginservlet2";
+		form1.submit();
+	}
+}
+</script>
+</head>
+<body>
+<form name="form1" action="loginservlet2" method="post"> <!-- post라고 지정해주지 않으면 기본값이 get라서 무조건 정보가 노출된다. -->
+	아이디: <input type="text" name="id"> <br>
+	비밀번호: <input type="password" name="password"> <br>
+	<!-- <input type="submit" value="Login"> -->
+	<input type="button" value="Login" onclick="fn_validate();">
+	<input type="reset" value="취소"> 
+	<!-- <input type="button" value="다음 바로가기" onclick="goDaum();"> -->
+</form>
+<!-- <button id="btn1">네이버 바로가기</button> -->
+
+<!-- <script>
+let btn1=document.getElementById("btn1");
+btn1.addEventListner("click",function(){location.href = "www.naver.com"});
+</script> -->
+</body>
+</html>

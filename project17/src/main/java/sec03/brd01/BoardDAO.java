@@ -1,0 +1,254 @@
+package sec03.brd01;
+
+import java.sql.Connection;
+import java.sql.Date;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
+
+import javax.naming.Context;
+import javax.naming.InitialContext;
+import javax.sql.DataSource;
+
+public class BoardDAO {
+
+	private DataSource dataFactory;
+	private Connection conn;
+	private PreparedStatement pstmt;
+
+	public BoardDAO() {
+
+		// MemberDAO 객체 초기화(생성)시에 위 정보를 불러오게 해라. -JNDI
+		// 그러기 위해서는 서블릿안에 MemberDAO객체가 있어야 함.
+		try {
+			// InitialContext를 생성하여 JNDI에 연결
+			Context ctx = new InitialContext();
+			// java:/comp/env은 일반적으로 JNDI 네임스페이스에서 컨텍스트에 대한 일반적인 경로
+			Context evnctx = (Context) ctx.lookup("java:/comp/env");
+			// context에서 resource 찾아감.
+			dataFactory = (DataSource) evnctx.lookup("jdbc/oracle");
+
+		} catch (Exception e) {
+			System.out.println("BoardDAO객체에서 DB 연결 관련 에러");
+		}
+	}
+
+	
+	//전체글을 가져오는 메소드
+	List<ArticleVO> selectAllArticles() {
+		List<ArticleVO> articleList = new ArrayList<ArticleVO>();
+		
+		try {
+			conn = dataFactory.getConnection();
+			String query = "select level,articleno,parentno,title,content,id,writedate from t_board start with parentno=0 connect by prior articleNO=parentno order SIBLINGS by articleno desc";
+			
+			System.out.println(query);
+			pstmt=conn.prepareStatement(query);
+			ResultSet rs=pstmt.executeQuery();
+			
+			while(rs.next()) {
+				int level=rs.getInt("level");
+				int articleNO = rs.getInt("articleNO");
+				int parentNO = rs.getInt("parentNO");
+				String title = rs.getString("title");
+				String content = rs.getString("content");
+				String id = rs.getString("id");
+				Date writeDate = rs.getDate("writeDate");
+				
+				ArticleVO articleVO= new ArticleVO();
+				
+				articleVO.setLevel(level);
+				articleVO.setArticleNO(articleNO);
+				articleVO.setParentNO(parentNO);
+				articleVO.setTitle(title);
+				articleVO.setContent(content);
+				articleVO.setId(id);
+				articleVO.setWriteDate(writeDate);
+				articleList.add(articleVO);
+			}
+			rs.close();
+			pstmt.close();
+			conn.close();
+			
+		}catch(Exception e) {
+			System.out.println("모든게시판 글 가져오기에서 에러");
+		}
+		return articleList;
+	}
+	
+	
+
+
+	private int getNewArticleNo() {
+		try {
+			conn = dataFactory.getConnection();
+			String query ="select max(articleno) from t_board";
+			pstmt=conn.prepareStatement(query);
+			ResultSet rs=pstmt.executeQuery();
+			
+			if(rs.next()) {
+				return rs.getInt(1)+1;
+			}
+			
+			rs.close();
+			pstmt.close();
+			conn.close();
+		}catch (Exception e) {
+			System.out.println();
+		}
+		return 0;
+	}
+	
+	
+	//새글추가
+		public void insertNewArticle(ArticleVO articleVO) {
+			try {
+				conn = dataFactory.getConnection();
+				int articleNO=getNewArticleNo(); 
+				int parentNO = articleVO.getParentNO();
+				String title = articleVO.getTitle();
+				String id = articleVO.getId();
+				String content = articleVO.getContent();
+				String imageFileName = articleVO.getImageFileName();
+				
+				String query="insert into t_board(articleno, parentno, title, content, imageFileName, id)\r\n"
+						+ "VALUES(?, ?, ?,?,?,?)";
+				
+				pstmt=conn.prepareStatement(query);
+				pstmt.setInt(1, articleNO);
+				pstmt.setInt(2, parentNO);
+				pstmt.setString(3, title);
+				pstmt.setString(4, content);
+				pstmt.setString(5, imageFileName);
+				pstmt.setString(6, id);
+				pstmt.executeUpdate();
+				
+				pstmt.close();
+				conn.close();
+			}
+			catch(Exception e) {
+				System.out.println("새글 추가시 예외 발생");
+			}
+			
+		}
+		
+		//글 보기
+		public ArticleVO selectArticle(int articleNO) {
+			ArticleVO article = new ArticleVO();
+			
+			try {
+				conn = dataFactory.getConnection();
+				String query="select articleno,parentno,title,content,imagefilename,id,writedate from t_board where articleno=?";
+				pstmt=conn.prepareStatement(query);
+				pstmt.setInt(1, articleNO);
+				ResultSet rs = pstmt.executeQuery();
+				rs.next();
+				
+				int articleNO2 = rs.getInt("articleNO");
+				int parentNO = rs.getInt("parentNO");
+				String title = rs.getString("title");
+				String content = rs.getString("content");
+				String imageFilename = rs.getString("imageFilename");
+				String id = rs.getString("id");
+				Date writeDate = rs.getDate("writeDate");
+				
+				article.setArticleNO(articleNO2);
+				article.setParentNO(parentNO);
+				article.setTitle(title);
+				article.setContent(content);
+				article.setImageFileName(imageFilename);
+				article.setId(id);
+				article.setWriteDate(writeDate);
+				
+				rs.close();
+				pstmt.close();
+				conn.close();
+				
+			}catch(Exception e) {
+				System.out.println("selectArticle 에러");
+			}
+			return article;
+		}
+
+		
+		public void updateArticle(ArticleVO article) {
+			int articleNO = article.getArticleNO();
+			String title = article.getTitle();
+			String content = article.getContent();
+			String imageFileName = article.getImageFileName();
+			try {
+				conn = dataFactory.getConnection();
+				String query = "update t_board  set title=?,content=?";
+				if (imageFileName != null && imageFileName.length() != 0) {
+					query += ",imageFileName=?";
+				}
+				query += " where articleNO=?";
+
+				System.out.println(query);
+				pstmt = conn.prepareStatement(query);
+				pstmt.setString(1, title);
+				pstmt.setString(2, content);
+				if (imageFileName != null && imageFileName.length() != 0) {
+					pstmt.setString(3, imageFileName);
+					pstmt.setInt(4, articleNO);
+				} else {
+					pstmt.setInt(3, articleNO);
+				}
+				pstmt.executeUpdate();
+				pstmt.close();
+				conn.close();
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		}
+		
+		
+		//삭제할 글 불러오기
+		public List<Integer> selectRemoveArticles(int articleNO){
+			List<Integer> articleNOList = new ArrayList<Integer>();
+			
+			try {
+			conn = dataFactory.getConnection();
+			String query="select articleno from t_board\r\n"
+					+ "start WITH articleno=?"
+					+ "connect by PRIOR articleno=parentno";
+			pstmt=conn.prepareStatement(query);
+			pstmt.setInt(1, articleNO);
+			ResultSet rs = pstmt.executeQuery();
+			
+			while(rs.next()) {
+				articleNO = rs.getInt("articleNO");
+				articleNOList.add(articleNO);
+			}
+			
+			pstmt.close();
+			conn.close();
+			}catch(Exception e) {
+				System.out.println("삭제할 글 불러오기 에러");
+			} return articleNOList;
+		}
+		
+		//글 삭제
+		public void deleteArticle(int articleNO) {
+			try {
+			conn = dataFactory.getConnection();
+			String query = "DELETE FROM t_board ";
+			query += " WHERE articleNO in (";
+			query += "  SELECT articleNO FROM  t_board ";
+			query += " START WITH articleNO = ?";
+			query += " CONNECT BY PRIOR  articleNO = parentNO )";
+			System.out.println(query);
+			pstmt = conn.prepareStatement(query);
+			pstmt.setInt(1, articleNO);
+			pstmt.executeUpdate();
+			pstmt.close();
+			conn.close();
+		} catch (Exception e) {
+			System.out.println("삭제시 에러");
+		}
+		}
+		
+}

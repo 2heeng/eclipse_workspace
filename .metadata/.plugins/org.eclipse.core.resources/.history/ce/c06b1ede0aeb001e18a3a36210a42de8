@@ -1,0 +1,25 @@
+package sec02;
+
+import java.util.Arrays;
+import java.util.stream.Stream;
+
+public class ArrToStreamEx {
+
+	public static void main(String[] args) {
+		
+		String strArr[]= {"홍일동","홍이동","홍삼동"};
+
+		
+		//기존방식
+		for(String str : strArr) {
+			System.out.println(str);
+		}
+		System.out.println("=====================================");
+		//strArr.stream
+		
+		//Arrays 이 클래스에는 배열을 조작하기 위한 다양한 메서드(예: 정렬 및 검색)가 포함되어 있습니다.
+		Stream<String> stream=Arrays.stream(strArr);
+		stream.forEach((x)->{System.out.println(x);});
+	}
+
+}

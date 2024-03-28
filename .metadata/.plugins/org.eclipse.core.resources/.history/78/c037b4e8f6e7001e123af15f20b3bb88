@@ -1,0 +1,21 @@
+package sec03;
+
+public class Test {
+
+	public static void main(String[] args) {
+		
+		//"".
+		
+		Person p1 = new Person();
+		
+		p1.ordering(
+				
+				(num1,num2)->{
+					
+					return num1+num2;
+				}
+				);
+		
+	}
+	
+}

@@ -1,0 +1,8 @@
+package sec03;
+
+@FunctionalInterface
+public interface Comparable {
+
+	
+	abstract String compare(String a, String b);
+}

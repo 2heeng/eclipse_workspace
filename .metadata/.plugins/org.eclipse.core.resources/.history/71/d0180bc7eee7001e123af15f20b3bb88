@@ -1,0 +1,12 @@
+package sec01;
+
+public class Person {
+
+	
+	void action(Workable workable) {
+		//workable.work();
+		String gift=workable.work();
+		System.out.println(gift);
+	}
+	
+}

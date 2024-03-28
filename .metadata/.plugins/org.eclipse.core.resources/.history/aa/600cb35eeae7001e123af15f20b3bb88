@@ -1,0 +1,15 @@
+package sec01;
+
+public interface Calculable {
+
+	
+	//상
+	//추
+	abstract void calculate(int x, int y);
+	//디
+	//정
+	
+	
+	
+	
+}

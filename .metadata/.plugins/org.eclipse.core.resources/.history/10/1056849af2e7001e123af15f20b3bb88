@@ -1,0 +1,23 @@
+package sec02;
+
+public class Test1 {
+
+	public static void main(String[] args) {
+		Person kim = new Person();
+		
+//		kim.useComputer(new Calculable() {
+//			
+//			@Override
+//			public double calc(double x, double y) {
+//				
+//				return x+y;
+//			}
+//		});
+		
+		
+	kim.useComputer(computer::sum);
+		
+
+	}
+
+}

@@ -1,0 +1,12 @@
+package sec03;
+
+public class LoopingEx2 {
+
+	public static void main(String[] args) {
+		
+		
+		int intArr[] = {6,7,8,9,10};
+
+	}
+
+}

@@ -1,0 +1,14 @@
+package sec03;
+
+import java.util.Arrays;
+
+public class AggregateEx {
+
+	public static void main(String[] args) {
+		int intArr[] = {6,8,10,12};
+		
+		System.out.println(Arrays.stream(intArr).filter((x)->{return x%2==0;}).count());
+
+	}
+
+}

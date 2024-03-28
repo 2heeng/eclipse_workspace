@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://xmlns.jcp.org/xml/ns/javaee" xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-app_4_0.xsd" id="WebApp_ID" version="4.0">
+  <display-name>project21</display-name>
+  
+  <servlet>
+  <servlet-name>action</servlet-name>
+  <servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
+  <!-- HTTP 요청 핸들러/컨트롤러를 위한 중앙 디스패처. 웹 UI 컨트롤러 또는 HTTP 기반 원격 서비스 내보내기의 경우. 
+  편리한 매핑 및 예외 처리 기능을 제공하여 웹 요청을 처리하기 위해 등록된 처리기로 디스패치합니다. -->
+  <load-on-startup>1</load-on-startup>
+  </servlet>
+  
+  <servlet-mapping>
+  <servlet-name>action</servlet-name>
+  <url-pattern>*.do</url-pattern>
+  </servlet-mapping>
+  
+</web-app>

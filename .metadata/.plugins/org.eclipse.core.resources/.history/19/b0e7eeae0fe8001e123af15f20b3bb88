@@ -1,0 +1,17 @@
+package com.spring.ex02;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.RequestMapping;
+
+@Controller(value = "loginController")
+public class LoginController {
+
+	@RequestMapping("/test/login5.do")
+	void login(Model model, HttpServletRequest request,HttpServletResponse response) throws  Exception{
+		System.out.println(model);
+	}
+}
